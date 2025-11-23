@@ -1,0 +1,77 @@
+.module_plugin {
+  padding: 0 !important;
+  margin: 25px !important;
+  max-width: 90% !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+#tistorySidebarProfileLayer, .profile-con {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 10px 0 !important;
+  text-align: left !important;
+}
+.profile-image-area {
+  margin: 0 0 10px 0 !important;
+  width: 100px;
+  height: 100px;
+  display: inline-block !important;
+}
+.custom-profile-photo {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1px solid #ddd !important;
+  display: block !important;
+  margin: 0 !important;
+}
+.profile-nick strong,
+.profile-nick span {
+  text-align: left !important;
+  display: block !important;
+}
+.profile-nick strong {
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+  color: #214726 !important;
+}
+.profile-nick span {
+  font-size: 0.9em !important;
+  color: #999 !important;
+}
+.profile-caption {
+  margin: 15px 0 15px 0 !important;
+  font-size: 0.95em !important;
+  line-height: 1.4 !important;
+}
+.profile-btn-area {
+  margin-top: 15px !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+.profile-links-group {
+  display: flex !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  padding: 0 !important;
+}
+.social-icon-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  font-size: 1.2em !important;
+  transition: transform 0.2s ease-in-out;
+  margin: 0 1px !important;
+}
+.social-icon-link.instagram { background-color: #E1306C !important; }
+.social-icon-link.naver-blog { background-color: #03C75A !important; }
+.social-icon-link.github { background-color: #333 !important; }
+
+#idMenuDiv, .profile-naver-con .more, .profile-naver-con .btn_area + div {
+  display: none !important;
+}

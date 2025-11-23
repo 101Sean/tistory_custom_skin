@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Category</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+      $(document).ready(function() {
+          $('.tt_category .category_list > li').each(function() {
+              var $listItem = $(this);
+              var $subList = $listItem.find('.sub_category_list').first();
+              var $linkItem = $listItem.find('.link_item').first();
+
+              if ($subList.length > 0) {
+                  $listItem.addClass('has-sub');
+
+                  var toggleButton = '<button type="button" class="category-toggle-btn"><i class="fas fa-chevron-down"></i></button>';
+                  $linkItem.append(toggleButton);
+
+                  if ($listItem.hasClass('on')) {
+                      $listItem.find('.category-toggle-btn').addClass('opened');
+                      $subList.show();
+                  } else {
+                      $subList.hide();
+                  }
+              }
+          });
+
+          $('.category-toggle-btn').on('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+
+              var $btn = $(this);
+              var $listItem = $btn.closest('li');
+              var $subList = $listItem.find('.sub_category_list').first();
+
+              $subList.slideToggle(300, function() {
+                  $btn.toggleClass('opened');
+                  $listItem.toggleClass('opened');
+              });
+          });
+
+          $('.tt_category .category_list > li.has-sub > .link_item').on('click', function(e) {});
+      });
+  </script>
+</head>
+<body>
+
+</body>
+</html>
