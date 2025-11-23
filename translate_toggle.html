@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Translate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/translate-toggle.css">
+</head>
+<body>
+  <div id="translate-wrapper">
+    <button id="translate-toggle-btn" class="translate-icon-btn" aria-expanded="false" aria-controls="google_translate_element_custom">
+      <i class="fa-solid fa-globe"></i>
+    </button>
+    <div id="google_translate_element_custom" class="translate-buttons"></div>
+  </div>
+
+  <div id="google_translate_element" style="display:none;"></div>
+  <script src="utils/PageTranslator.js"></script>
+</body>
+</html>
