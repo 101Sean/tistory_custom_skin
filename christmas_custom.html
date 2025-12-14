@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>christmas</title>
+  <link rel="stylesheet" href="assets/christmas-custom.css">
+  <!-- 눈송이, 전구 커스텀 -->
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // 12월만
+          function isDecember() {
+              const now = new Date();
+              return now.getMonth() === 11;
+          }
+
+          const body = document.body;
+          if (isDecember()) {
+              body.classList.add('december-active');
+          } else {
+              body.classList.remove('december-active');
+          }
+
+          const snowContainer = document.getElementById('snow');
+          const toggleButton = document.getElementById('toggleSnowButton');
+          const lightContainer = document.getElementById('scatteredLights');
+
+          if (!isDecember()) {
+              if (snowContainer) snowContainer.style.display = 'none';
+              if (lightContainer) lightContainer.style.display = 'none';
+              if (toggleButton) toggleButton.style.display = 'none'; // 버튼도 숨김
+              return;
+          }
+
+          if (lightContainer) lightContainer.style.display = 'block';
+          if (!snowContainer) return;
+          snowContainer.style.display = 'block';
+
+          let snowEnabled = true;
+
+          function updateToggleButton(isEnabled) {
+              if (isEnabled) {
+                  toggleButton.textContent = "눈 끄기";
+                  toggleButton.setAttribute('aria-pressed', 'true');
+                  snowContainer.style.display = 'block';
+              } else {
+                  toggleButton.textContent = "눈 켜기";
+                  toggleButton.setAttribute('aria-pressed', 'false');
+                  snowContainer.style.display = 'none';
+              }
+          }
+
+          if (toggleButton) {
+              toggleButton.addEventListener('click', function() {
+                  snowEnabled = !snowEnabled;
+                  updateToggleButton(snowEnabled);
+                  localStorage.setItem('snowEffectEnabled', snowEnabled);
+              });
+
+              const savedState = localStorage.getItem('snowEffectEnabled');
+              if (savedState !== null) {
+                  snowEnabled = savedState === 'true';
+              }
+              updateToggleButton(snowEnabled);
+          }
+
+          const canvas = document.createElement('canvas');
+          snowContainer.appendChild(canvas);
+          const ctx = canvas.getContext('2d');
+
+          const isMobile = window.innerWidth <= 768;
+          const numFlakes = isMobile ? 50 : 100;
+          const maxSnowSize = isMobile ? 1.5 : 3;
+          const minSnowSize = 0.5;
+
+          function resizeCanvas() {
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight;
+          }
+          window.addEventListener('resize', resizeCanvas);
+          resizeCanvas();
+
+          let snowflakes = [];
+          function SnowFlake() {
+              this.x = Math.random() * canvas.width;
+              this.y = Math.random() * canvas.height;
+              this.size = Math.random() * maxSnowSize + minSnowSize;
+              this.speedX = Math.random() * 0.5 - 0.25;
+              this.speedY = Math.random() * (isMobile ? 0.8 : 1) + 0.5;
+          }
+          SnowFlake.prototype.update = function() {
+              this.x += this.speedX;
+              this.y += this.speedY;
+              if (this.y > canvas.height) {
+                  this.y = -this.size;
+                  this.x = Math.random() * canvas.width;
+              }
+          };
+          SnowFlake.prototype.draw = function() {
+              const isDarkMode = document.body.classList.contains('dark-mode');
+              ctx.fillStyle = isDarkMode ? '#FFFFFF' : '#CCCCCC';
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+              ctx.fill();
+          };
+
+          for (let i = 0; i < numFlakes; i++) {
+              snowflakes.push(new SnowFlake());
+          }
+
+          function animate() {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              for (let i = 0; i < numFlakes; i++) {
+                  snowflakes[i].update();
+                  snowflakes[i].draw();
+              }
+              requestAnimationFrame(animate);
+          }
+          animate();
+      });
+  </script>
+
+  <!-- 크리스마스 텍스트 -->
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          function isDecember() {
+              const now = new Date();
+              return now.getMonth() === 11;
+          }
+          function applyChristmasStripes() {
+              if (!isDecember()) return;
+
+              const targetColors = ['#70A379', '#214726'];
+              const color1 = '#187f42';
+              const color2 = '#e50000';
+
+              const stripeCSS = {
+                  'backgroundImage': `repeating-linear-gradient(-45deg, ${color1}, ${color1} 8px, ${color2} 8px, ${color2} 16px)`,
+                  '-webkit-background-clip': 'text',
+                  'backgroundClip': 'text',
+                  'backgroundRepeat': 'repeat',
+                  'backgroundPosition': 'left top'
+              };
+
+              const allElements = document.querySelectorAll('*');
+
+              function rgbToHex(rgb) {
+                  const parts = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                  if (!parts) return null;
+
+                  const toHex = (c) => parseInt(c).toString(16).padStart(2, '0');
+                  return `#${toHex(parts[1])}${toHex(parts[2])}${toHex(parts[3])}`.toUpperCase();
+              }
+
+              allElements.forEach(element => {
+                  const computedStyle = window.getComputedStyle(element);
+                  const currentColor = computedStyle.color;
+
+                  let elementHexColor = currentColor;
+                  if (currentColor.startsWith('rgb')) {
+                      elementHexColor = rgbToHex(currentColor);
+                  }
+
+                  if (targetColors.includes(elementHexColor)) {
+                      for (const property in stripeCSS) {
+                          element.style[property] = stripeCSS[property];
+                      }
+
+                      element.style.setProperty('color', 'transparent', 'important');
+                  }
+              });
+          }
+
+          applyChristmasStripes();
+      });
+  </script>
+</head>
+<body>
+  <!-- 눈송이 효과 -->
+  <div id="snow"></div>
+
+  <header>
+    <div id="scatteredLights">
+      <span class="scattered-light c1"></span>
+      <span class="scattered-light c2"></span>
+      <span class="scattered-light c3"></span>
+      <span class="scattered-light c4"></span>
+      <span class="scattered-light c5"></span>
+
+      <span class="scattered-light c1"></span>
+      <span class="scattered-light c2"></span>
+      <span class="scattered-light c3"></span>
+      <span class="scattered-light c4"></span>
+      <span class="scattered-light c5"></span>
+
+      <span class="scattered-light c1"></span>
+      <span class="scattered-light c2"></span>
+      <span class="scattered-light c3"></span>
+      <span class="scattered-light c4"></span>
+      <span class="scattered-light c5"></span>
+
+      <span class="scattered-light c1"></span>
+      <span class="scattered-light c2"></span>
+      <span class="scattered-light c3"></span>
+      <span class="scattered-light c4"></span>
+    </div>
+  </header>
+</body>
+</html>
